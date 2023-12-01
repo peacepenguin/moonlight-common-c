@@ -467,19 +467,6 @@ int LiStartConnection(PSERVER_INFORMATION serverInfo, PSTREAM_CONFIGURATION stre
     ListenerCallbacks.stageComplete(STAGE_CONTROL_STREAM_START);
     Limelog("done\n");
 
-    Limelog("Starting video stream...");
-    ListenerCallbacks.stageStarting(STAGE_VIDEO_STREAM_START);
-    err = startVideoStream(renderContext, drFlags);
-    if (err != 0) {
-        Limelog("Video stream start failed: %d\n", err);
-        ListenerCallbacks.stageFailed(STAGE_VIDEO_STREAM_START, err);
-        goto Cleanup;
-    }
-    stage++;
-    LC_ASSERT(stage == STAGE_VIDEO_STREAM_START);
-    ListenerCallbacks.stageComplete(STAGE_VIDEO_STREAM_START);
-    Limelog("done\n");
-
     Limelog("Starting audio stream...");
     ListenerCallbacks.stageStarting(STAGE_AUDIO_STREAM_START);
     err = startAudioStream(audioContext, arFlags);
@@ -491,6 +478,19 @@ int LiStartConnection(PSERVER_INFORMATION serverInfo, PSTREAM_CONFIGURATION stre
     stage++;
     LC_ASSERT(stage == STAGE_AUDIO_STREAM_START);
     ListenerCallbacks.stageComplete(STAGE_AUDIO_STREAM_START);
+    Limelog("done\n");
+
+    Limelog("Starting video stream...");
+    ListenerCallbacks.stageStarting(STAGE_VIDEO_STREAM_START);
+    err = startVideoStream(renderContext, drFlags);
+    if (err != 0) {
+        Limelog("Video stream start failed: %d\n", err);
+        ListenerCallbacks.stageFailed(STAGE_VIDEO_STREAM_START, err);
+        goto Cleanup;
+    }
+    stage++;
+    LC_ASSERT(stage == STAGE_VIDEO_STREAM_START);
+    ListenerCallbacks.stageComplete(STAGE_VIDEO_STREAM_START);
     Limelog("done\n");
 
     Limelog("Starting input stream...");
