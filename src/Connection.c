@@ -31,7 +31,11 @@ uint16_t AudioPortNumber;
 uint16_t VideoPortNumber;
 SS_PING AudioPingPayload;
 SS_PING VideoPingPayload;
+uint32_t ControlConnectData;
 uint32_t SunshineFeatureFlags;
+uint32_t EncryptionFeaturesSupported;
+uint32_t EncryptionFeaturesRequested;
+uint32_t EncryptionFeaturesEnabled;
 
 // Connection stages
 static const char* stageNames[STAGE_MAX] = {
@@ -518,4 +522,10 @@ Cleanup:
         LiStopConnection();
     }
     return err;
+}
+
+const char* LiGetLaunchUrlQueryParameters() {
+    // v0 = Video encryption and control stream encryption v2
+    // v1 = RTSP encryption
+    return "&corever=1";
 }
